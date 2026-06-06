@@ -6,6 +6,8 @@ app.use(express.json());
 
 const PORT = 5000;
 
+const analyzeRoutes = require("./routes/analyzeRoutes");
+
 app.get("/health", (req, res) => {
   res.json({
     status: "OK",
@@ -21,23 +23,11 @@ app.get("/about", (req, res) => {
   });
 });
 
-app.post("/analyze",(req,res) =>{
-  const githubUrl=req.body.githubUrl;
+app.use("/",analyzeRoutes);
 
-  res.json({
-    success:true,
-    receivedUrl:githubUrl,
-    skills:[
-      "HTML",
-      "CSS",
-      "JavaScript"
-           ]
-
-
-  });
-});
 
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+
 });
