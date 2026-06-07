@@ -1,28 +1,33 @@
+const careerMappings = require("../data/careerMappings");
+
 const analyzeProject = (req, res) => {
 
   const githubUrl = req.body.githubUrl;
 
   let skills = [];
 
-  let carrierSuggestion=[];
+  let careerSuggestions = [];
 
   if (githubUrl.toLowerCase().includes("react")) {
     skills.push("React");
-    carrierSuggestion.push("Frontend Developer");
+    careerSuggestions.push(careerMappings.React);
   }
 
   if (githubUrl.toLowerCase().includes("node")) {
     skills.push("Node.js");
-    carrierSuggestion.push("Backend Developer");
+    careerSuggestions.push(careerMappings["Node.js"]);
   }
 
   if (githubUrl.toLowerCase().includes("python")) {
     skills.push("Python");
-    carrierSuggestion.push("Python Developer");
+    careerSuggestions.push(careerMappings.Python);
   }
 
-  if( skills.includes("React") && skills.includes("Node.js")){
-    carrierSuggestion.push("Full Stack Developer");
+  if (
+    skills.includes("React") &&
+    skills.includes("Node.js")
+  ) {
+    careerSuggestions.push("Full Stack Developer");
   }
 
   if (skills.length === 0) {
@@ -35,7 +40,7 @@ const analyzeProject = (req, res) => {
     success: true,
     receivedUrl: githubUrl,
     skills: skills,
-    carrierSuggestion: carrierSuggestion
+    careerSuggestions: careerSuggestions
   });
 
 };
