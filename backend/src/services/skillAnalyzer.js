@@ -1,21 +1,30 @@
 const careerMappings = require("../data/careerMappings");
+const repositoryData = require("../data/repositoryData");
 
-const analyzeSkills = (githubUrl) => {
+const getRepositoryByName = (repoName) => {
+
+  return repositoryData.find(
+    repo => repo.name === repoName
+  );
+
+};
+
+const analyzeRepository = (repository) => {
 
   let skills = [];
   let careerSuggestions = [];
 
-  if (githubUrl.toLowerCase().includes("react")) {
+  if (repository.technologies.includes("React")) {
     skills.push("React");
     careerSuggestions.push(careerMappings.React);
   }
 
-  if (githubUrl.toLowerCase().includes("node")) {
+  if (repository.technologies.includes("Node.js")) {
     skills.push("Node.js");
     careerSuggestions.push(careerMappings["Node.js"]);
   }
 
-  if (githubUrl.toLowerCase().includes("python")) {
+  if (repository.technologies.includes("Python")) {
     skills.push("Python");
     careerSuggestions.push(careerMappings.Python);
   }
@@ -27,18 +36,23 @@ const analyzeSkills = (githubUrl) => {
     careerSuggestions.push("Full Stack Developer");
   }
 
-  if (skills.length === 0) {
-    skills.push("HTML");
-    skills.push("CSS");
-    skills.push("JavaScript");
-  }
-
   return {
     skills,
     careerSuggestions
   };
 };
 
+const analyzeSkills = (githubUrl) => {
+
+  const repository =
+    getRepositoryByName("Portfolio App");
+
+  return analyzeRepository(repository);
+
+};
+
 module.exports = {
-  analyzeSkills
+  analyzeSkills,
+  getRepositoryByName,
+  analyzeRepository
 };
