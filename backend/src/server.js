@@ -1,10 +1,14 @@
+require("dotenv").config();
+
 const express = require("express");
 
+const appConfig = require("./config/appConfig");
 const app = express();
 
 app.use(express.json());
 
-const PORT = 5000;
+const PORT =
+  appConfig.PORT;
 
 const analyzeRoutes = require("./routes/analyzeRoutes");
 

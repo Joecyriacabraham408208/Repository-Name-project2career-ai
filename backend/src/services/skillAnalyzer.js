@@ -42,10 +42,28 @@ const analyzeRepository = (repository) => {
   };
 };
 
+const getRepositoryFromUrl = (githubUrl) => {
+
+  if (githubUrl.toLowerCase().includes("portfolio")) {
+    return getRepositoryByName("Portfolio App");
+  }
+
+  if (githubUrl.toLowerCase().includes("ai")) {
+    return getRepositoryByName("AI Project");
+  }
+
+  if (githubUrl.toLowerCase().includes("ecommerce")) {
+    return getRepositoryByName("Ecommerce Website");
+  }
+
+  return getRepositoryByName("Portfolio App");
+
+};
+
 const analyzeSkills = (githubUrl) => {
 
   const repository =
-    getRepositoryByName("Portfolio App");
+    getRepositoryFromUrl(githubUrl);
 
   return analyzeRepository(repository);
 
@@ -54,5 +72,6 @@ const analyzeSkills = (githubUrl) => {
 module.exports = {
   analyzeSkills,
   getRepositoryByName,
-  analyzeRepository
+  analyzeRepository,
+  getRepositoryFromUrl
 };
