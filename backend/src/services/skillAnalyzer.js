@@ -1,3 +1,7 @@
+
+const {
+  parseGithubUrl
+} = require("./githubParser");
 const careerMappings = require("../data/careerMappings");
 const repositoryData = require("../data/repositoryData");
 
@@ -61,6 +65,11 @@ const getRepositoryFromUrl = (githubUrl) => {
 };
 
 const analyzeSkills = (githubUrl) => {
+
+  const parsedData =
+    parseGithubUrl(githubUrl);
+
+  console.log(parsedData);
 
   const repository =
     getRepositoryFromUrl(githubUrl);
