@@ -1,4 +1,6 @@
-
+const {
+  findRepository
+} = require("./repositoryService");
 const {
   parseGithubUrl
 } = require("./githubParser");
@@ -46,30 +48,28 @@ const analyzeRepository = (repository) => {
   };
 };
 
-const getRepositoryFromUrl = (githubUrl) => {
+const getRepositoryFromUrl = (
+  githubUrl
+) => {
 
   const parsedData =
     parseGithubUrl(githubUrl);
 
   const repositoryName =
-    parsedData.repository.toLowerCase();
+    parsedData.repository
+      .toLowerCase();
 
-  if (repositoryName.includes("portfolio")) {
-    return getRepositoryByName("Portfolio App");
-  }
+  const repository =
+    findRepository(repositoryName);
 
-  if (repositoryName.includes("ai")) {
-    return getRepositoryByName("AI Project");
-  }
-
-  if (repositoryName.includes("ecommerce")) {
-    return getRepositoryByName("Ecommerce Website");
-  }
-
-  return getRepositoryByName("Portfolio App");
+  return (
+    repository ||
+    getRepositoryByName(
+      "Portfolio App"
+    )
+  );
 
 };
-
 const analyzeSkills = (githubUrl) => {
 
   const parsedData =
