@@ -48,15 +48,21 @@ const analyzeRepository = (repository) => {
 
 const getRepositoryFromUrl = (githubUrl) => {
 
-  if (githubUrl.toLowerCase().includes("portfolio")) {
+  const parsedData =
+    parseGithubUrl(githubUrl);
+
+  const repositoryName =
+    parsedData.repository.toLowerCase();
+
+  if (repositoryName.includes("portfolio")) {
     return getRepositoryByName("Portfolio App");
   }
 
-  if (githubUrl.toLowerCase().includes("ai")) {
+  if (repositoryName.includes("ai")) {
     return getRepositoryByName("AI Project");
   }
 
-  if (githubUrl.toLowerCase().includes("ecommerce")) {
+  if (repositoryName.includes("ecommerce")) {
     return getRepositoryByName("Ecommerce Website");
   }
 
