@@ -1,4 +1,8 @@
 const {
+  getRepositoryMetadata
+} = require("./githubService");
+
+const {
   findRepository
 } = require("./repositoryService");
 const {
@@ -76,6 +80,14 @@ const analyzeSkills = (githubUrl) => {
     parseGithubUrl(githubUrl);
 
   console.log(parsedData);
+
+  const metadata =
+    getRepositoryMetadata(
+      parsedData.owner,
+      parsedData.repository
+    );
+
+  console.log(metadata);
 
   const repository =
     getRepositoryFromUrl(githubUrl);
