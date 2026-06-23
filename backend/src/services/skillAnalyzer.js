@@ -19,7 +19,7 @@ const getRepositoryByName = (repoName) => {
 
 };
 
-const analyzeRepository = (repository) => {
+const analyzeRepository = (repository,metadata) => {
 
   let skills = [];
   let careerSuggestions = [];
@@ -45,6 +45,12 @@ const analyzeRepository = (repository) => {
   ) {
     careerSuggestions.push("Full Stack Developer");
   }
+
+  if (metadata.stars > 20) {
+  careerSuggestions.push(
+    "Open Source Contributor"
+  );
+}
 
   return {
     skills,
@@ -92,7 +98,7 @@ const analyzeSkills = (githubUrl) => {
   const repository =
     getRepositoryFromUrl(githubUrl);
 
-  return analyzeRepository(repository);
+  return analyzeRepository(repository,metadata);
 
 };
 
