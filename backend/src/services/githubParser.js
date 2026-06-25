@@ -13,8 +13,3 @@ module.exports = {
   parseGithubUrl
 };
 
-console.log(
-  parseGithubUrl(
-    "https://github.com/joe/ai-project"
-  )
-);

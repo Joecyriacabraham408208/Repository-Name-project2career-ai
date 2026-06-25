@@ -1,41 +1,46 @@
-const getRepositoryMetadata = (
+const axios = require("axios");
+
+const getRepositoryMetadata = async (
   owner,
   repository
 ) => {
 
-  const repositoryName =
-    repository.toLowerCase();
+  try {
 
-  if (
-    repositoryName.includes("ai")
-  ) {
-    return {
-      owner,
-      repository,
-      language: "Python",
-      stars: 25,
-      forks: 5
-    };
-  }
-
-  if (
-    repositoryName.includes("ecommerce")
-  ) {
-    return {
-      owner,
-      repository,
-      language: "JavaScript",
-      stars: 40,
-      forks: 12
-    };
-  }
+  const response =
+    await axios.get(
+      `https://api.github.com/repos/${owner}/${repository}`
+    );
 
   return {
     owner,
     repository,
-    language: "JavaScript",
-    stars: 10,
-    forks: 2
+    language:
+      response.data.language,
+    stars:
+      response.data.stargazers_count,
+    forks:
+      response.data.forks_count
+  };
+
+}
+catch (error) {
+
+  throw new Error(
+    "Repository not found"
+  );
+
+}
+
+  return {
+    owner,
+    repository,
+    language:
+      response.data.language,
+    stars:
+      response.data.stargazers_count,
+    forks:
+      response.data.forks_count
   };
 
 };

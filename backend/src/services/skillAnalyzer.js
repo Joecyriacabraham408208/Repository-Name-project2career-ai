@@ -5,13 +5,20 @@ const {
 const {
   findRepository
 } = require("./repositoryService");
+
 const {
   parseGithubUrl
 } = require("./githubParser");
-const careerMappings = require("../data/careerMappings");
-const repositoryData = require("../data/repositoryData");
 
-const getRepositoryByName = (repoName) => {
+const careerMappings =
+  require("../data/careerMappings");
+
+const repositoryData =
+  require("../data/repositoryData");
+
+const getRepositoryByName = (
+  repoName
+) => {
 
   return repositoryData.find(
     repo => repo.name === repoName
@@ -19,58 +26,126 @@ const getRepositoryByName = (repoName) => {
 
 };
 
-const analyzeRepository = (repository,metadata) => {
+const analyzeRepository = (
+  repository,
+  metadata
+) => {
 
+  let repositoryRating = "";
   let skills = [];
   let careerSuggestions = [];
+  let projectScore = 0;
 
-  if (repository.technologies.includes("React")) {
+  if (
+    repository.technologies.includes(
+      "React"
+    )
+  ) {
+
     skills.push("React");
-    careerSuggestions.push(careerMappings.React);
+    projectScore += 20;
+
+    careerSuggestions.push(
+      careerMappings.React
+    );
+
   }
 
-  if (repository.technologies.includes("Node.js")) {
+  if (
+    repository.technologies.includes(
+      "Node.js"
+    )
+  ) {
+
     skills.push("Node.js");
-    careerSuggestions.push(careerMappings["Node.js"]);
+    projectScore += 20;
+
+    careerSuggestions.push(
+      careerMappings["Node.js"]
+    );
+
   }
 
-  if (repository.technologies.includes("Python")) {
+  if (
+    repository.technologies.includes(
+      "Python"
+    )
+  ) {
+
     skills.push("Python");
-    careerSuggestions.push(careerMappings.Python);
+    projectScore += 20;
+
+    careerSuggestions.push(
+      careerMappings.Python
+    );
+
   }
 
   if (
     skills.includes("React") &&
     skills.includes("Node.js")
   ) {
-    careerSuggestions.push("Full Stack Developer");
+
+    careerSuggestions.push(
+      "Full Stack Developer"
+    );
+
   }
 
   if (metadata.stars > 20) {
-  careerSuggestions.push(
-    "Open Source Contributor"
-  );
-}
+
+    projectScore += 30;
+
+    careerSuggestions.push(
+      "Open Source Contributor"
+    );
+
+  }
+
+  if (metadata.forks > 5) {
+
+    projectScore += 10;
+
+  }
+
+  if (projectScore >= 70) {
+
+    repositoryRating =
+      "Excellent";
+
+  }
+  else if (
+    projectScore >= 40
+  ) {
+
+    repositoryRating =
+      "Good";
+
+  }
+  else {
+
+    repositoryRating =
+      "Beginner";
+
+  }
 
   return {
     skills,
-    careerSuggestions
+    careerSuggestions,
+    projectScore,
+    repositoryRating
   };
+
 };
 
 const getRepositoryFromUrl = (
-  githubUrl
+  repositoryName
 ) => {
 
-  const parsedData =
-    parseGithubUrl(githubUrl);
-
-  const repositoryName =
-    parsedData.repository
-      .toLowerCase();
-
   const repository =
-    findRepository(repositoryName);
+    findRepository(
+      repositoryName.toLowerCase()
+    );
 
   return (
     repository ||
@@ -80,26 +155,39 @@ const getRepositoryFromUrl = (
   );
 
 };
-const analyzeSkills = (githubUrl) => {
+
+const analyzeSkills = async(
+  githubUrl
+) => {
 
   const parsedData =
     parseGithubUrl(githubUrl);
 
-  console.log(parsedData);
+  
 
   const metadata =
-    getRepositoryMetadata(
+    await getRepositoryMetadata(
       parsedData.owner,
       parsedData.repository
     );
 
-  console.log(metadata);
-
+  
   const repository =
-    getRepositoryFromUrl(githubUrl);
+  getRepositoryFromUrl(
+    parsedData.repository
+  );
+  const result =
+  analyzeRepository(
+    repository,
+    metadata
+  );
 
-  return analyzeRepository(repository,metadata);
 
+
+return {
+  ...result,
+  metadata
+};
 };
 
 module.exports = {
