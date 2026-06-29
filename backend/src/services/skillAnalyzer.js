@@ -32,6 +32,7 @@ const analyzeRepository = (
 ) => {
 
   let repositoryRating = "";
+  let repositoryCategory = "";
   let skills = [];
   let careerSuggestions = [];
   let projectScore = 0;
@@ -102,6 +103,22 @@ const analyzeRepository = (
 
   }
 
+  if (metadata.stars > 1000) {
+
+  careerSuggestions.push(
+    "Popular Open Source Project"
+  );
+
+}
+
+if (metadata.watchers > 100) {
+
+  careerSuggestions.push(
+    "Community Driven Project"
+  );
+
+}
+
   if (metadata.forks > 5) {
 
     projectScore += 10;
@@ -129,13 +146,26 @@ const analyzeRepository = (
 
   }
 
-  return {
-    skills,
-    careerSuggestions,
-    projectScore,
-    repositoryRating
-  };
+  if (metadata.stars > 1000) {
 
+  repositoryCategory =
+    "Enterprise Level";
+
+}
+else {
+
+  repositoryCategory =
+    "Standard Project";
+
+}
+
+  return {
+  skills,
+  careerSuggestions,
+  projectScore,
+  repositoryRating,
+  repositoryCategory
+};
 };
 
 const getRepositoryFromUrl = (

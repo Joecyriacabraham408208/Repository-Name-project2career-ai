@@ -28,18 +28,20 @@ const analyzeProject = async (
       );
 
     res.json({
-      success: true,
-      receivedUrl: githubUrl,
-      skills: result.skills,
-      careerSuggestions:
-        result.careerSuggestions,
-      projectScore:
-        result.projectScore,
-      repositoryRating:
-        result.repositoryRating,
-      metadata:
-        result.metadata
-    });
+  success: true,
+  receivedUrl: githubUrl,
+  skills: result.skills,
+  careerSuggestions:
+    result.careerSuggestions,
+  projectScore:
+    result.projectScore,
+  repositoryRating:
+    result.repositoryRating,
+  repositoryCategory:
+    result.repositoryCategory,
+  metadata:
+    result.metadata
+});
 
   }
   catch (error) {
