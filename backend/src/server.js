@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 const PORT =
-  appConfig.PORT;
+  process.env.PORT || appConfig.PORT;
 
 const analyzeRoutes = require("./routes/analyzeRoutes");
 
