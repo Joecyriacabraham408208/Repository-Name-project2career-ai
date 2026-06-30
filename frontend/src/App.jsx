@@ -34,7 +34,7 @@ setError("");
     try {
 
       const response = await fetch(
-        "http://localhost:5000/analyze",
+       "https://project2career-backend.onrender.com/analyze",
         {
           method: "POST",
 
